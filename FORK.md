@@ -17,6 +17,9 @@ Base upstream: `e53cb7b6e8713c2903786735f251521679380b18` (2026-11-20).
 | `src/cli/modern-web.test.ts` | Los tests de install/uninstall se reemplazaron por un test que verifica el bloqueo. |
 | `.github/workflows/*` de upstream, `dependabot.yml`, `atls.json`, templates, `CODEOWNERS` | Eliminados (publish a npm, crons de triage/sync, deploy de páginas). En su lugar va `fork-ci.yml`. |
 | `package.json` | `name: dropmind-web-guidance-src` y script `build:fork`. |
+| `AGENTS.md` | Nota al inicio: las reglas de PR/CLA de Google aplican solo a contribuciones hacia upstream. |
+| `fork/assets/logo.{svg,png}` (nuevo) | Logo propio del fork (gota con `</>`), sin relación con el de upstream. |
+| `.github/README.md`, `.github/CONTRIBUTING.md`, `.github/SECURITY.md`, `NOTICE` (nuevos) | Portada del repo en GitHub, a dónde va cada contribución (upstream o fork), política de seguridad y atribución de Apache-2.0. |
 
 ## Post-build (`pnpm build:fork`)
 
@@ -24,8 +27,9 @@ Base upstream: `e53cb7b6e8713c2903786735f251521679380b18` (2026-11-20).
 1. Renombra `skills/modern-web-guidance` → `skills/dropmind-web-guidance` y `chrome-extensions` → `dropmind-chrome-extensions`.
 2. Cambia el binario, los nombres de los skills, los manifests de plugins (Claude, Codex, Cursor, Gemini, Kimi, Grok, Copilot), las URLs y los **textos que generan los bundles al ejecutarse** (`legacy-scan` `retrieveCommand`, mensajes de feature gates y de uso).
 3. Reescribe toda invocación `npx|pnpx modern-web-guidance@latest` al binario local, en `.md`, `.json`, `.json.gz` y `.mjs`.
-4. Marca el `package.json` publicado como `private: true` para evitar un `npm publish` accidental.
-5. **Falla el build** si queda telemetría, algún `npx` al paquete, el nombre `modern-web-guidance` o las URLs de upstream.
+4. Reemplaza `assets/logo.png` por el logo del fork y quita `.github/img` (las imágenes de marca de upstream).
+5. Marca el `package.json` publicado como `private: true` para evitar un `npm publish` accidental.
+6. **Falla el build** si quedan el logo de upstream, telemetría, algún `npx` al paquete, el nombre `modern-web-guidance` o las URLs de upstream.
 
 La identidad del fork (nombre, owner, autor) son constantes al inicio de `fork-postbuild.mjs`.
 

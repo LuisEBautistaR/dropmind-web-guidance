@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>dropmind-web-guidance</title>
+  <defs>
+    <linearGradient id="dmwg-drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="#0B1117"/>
+  <path d="M128 36 C128 36 62 112 62 154 a66 66 0 0 0 132 0 C194 112 128 36 128 36 Z" fill="url(#dmwg-drop)"/>
+  <g fill="none" stroke="#0B1117" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="104,134 84,156 104,178"/>
+    <polyline points="152,134 172,156 152,178"/>
+    <line x1="139" y1="126" x2="117" y2="186"/>
+  </g>
+</svg>

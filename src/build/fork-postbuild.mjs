@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import crypto from 'node:crypto';
 
 // ---- Identidad del fork (cambia aquí si renombras) --------------------------------------
 const NAME = 'dropmind-web-guidance';           // paquete, binario y skill principal
@@ -28,6 +29,13 @@ fs.renameSync(S('skills/modern-web-guidance'), S('skills', NAME));
 if (fs.existsSync(S('skills/chrome-extensions'))) fs.renameSync(S('skills/chrome-extensions'), S('skills', CE_NAME));
 if (fs.existsSync(S('policies/modern-web-guidance.toml'))) fs.renameSync(S('policies/modern-web-guidance.toml'), S('policies', `${NAME}.toml`));
 fs.rmSync(S('skills', NAME, 'watchdog'), { recursive: true, force: true });
+
+// 1b. Identidad visual: logo propio y fuera las imágenes de marca de upstream
+const FORK_ASSETS = path.resolve(import.meta.dirname, '../../fork/assets');
+const UPSTREAM_LOGO = path.resolve(import.meta.dirname, '../cli/template/assets/logo.png');
+fs.mkdirSync(S('assets'), { recursive: true });
+for (const f of ['logo.png', 'logo.svg']) fs.copyFileSync(path.join(FORK_ASSETS, f), S('assets', f));
+fs.rmSync(S('.github/img'), { recursive: true, force: true });
 
 // 2. Reglas de texto (el orden importa: URLs antes del reemplazo genérico del nombre)
 const rules = [
@@ -104,6 +112,7 @@ No es un producto de Google ni está respaldado por Google.
 - CLI: \`${NAME}\` (search, list, retrieve, legacy-scan, set-baseline…)
 - Skills: \`${NAME}\`, \`${CE_NAME}\`
 - Sin watchdog ni Clearcut, sin \`npx\`, y \`install\`/\`update\`/\`uninstall\` deshabilitados.
+- Logo: \`assets/logo.svg\` (propio del fork).
 
 Fuente, cambios y cómo actualizar: ${REPO}
 `);
@@ -118,6 +127,9 @@ Modifications: telemetry removed, network-based install/update disabled, rebrand
 
 // 5. Guardas
 const bad = [];
+const sha = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+if (fs.existsSync(UPSTREAM_LOGO) && sha(S('assets/logo.png')) === sha(UPSTREAM_LOGO)) bad.push('assets/logo.png sigue siendo el logo de upstream');
+if (fs.existsSync(S('.github/img'))) bad.push('.github/img de upstream presente en dist');
 const cli = fs.readFileSync(S('skills', NAME, 'modern-web.mjs'), 'utf8');
 if (/play\.googleapis\.com|clearcut-sender|WatchdogClient|skills\.sh/.test(cli)) bad.push('telemetría en modern-web.mjs');
 const leftovers = { npx: [], name: [], upstream: [] };

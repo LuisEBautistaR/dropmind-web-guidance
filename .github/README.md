@@ -1,4 +1,10 @@
+<p align="center">
+  <img src="../fork/assets/logo.svg" alt="dropmind-web-guidance" width="120" />
+</p>
+
 # dropmind-web-guidance
+
+[![fork-ci](https://github.com/LuisEBautistaR/dropmind-web-guidance/actions/workflows/fork-ci.yml/badge.svg)](https://github.com/LuisEBautistaR/dropmind-web-guidance/actions/workflows/fork-ci.yml)
 
 Fork **sin telemetría y 100% offline** de [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance-src) de Google (Apache-2.0): guías curadas de la plataforma web moderna (HTML/CSS/JS, accesibilidad, performance, seguridad) para agentes de código, con CLI local de búsqueda, consulta y escaneo de patrones legacy.
 
@@ -25,4 +31,9 @@ SKILLS_DIR=~/.claude/skills ./scripts/install-local.sh
 
 Requiere Node >= 22.18 y pnpm 10. Uso: `dropmind-web-guidance search "light dismiss dialog"`, `retrieve <id>`, `list`, `legacy-scan <ruta> --json`.
 
-El README original de upstream sigue en [`/README.md`](../README.md).
+## Contribuir y seguridad
+
+- [Cómo contribuir](CONTRIBUTING.md): el contenido de las guías va a upstream y lo del fork va aquí.
+- [Política de seguridad](SECURITY.md)
+
+El README original de upstream sigue en [`/README.md`](../README.md). El logo de este fork es propio y no tiene relación con el de Modern Web Guidance.

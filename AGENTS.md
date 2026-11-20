@@ -1,5 +1,7 @@
 # AGENTS.md
 
+> **Fork `dropmind-web-guidance`:** este repo es un fork sin telemetría de `GoogleChrome/modern-web-guidance-src`. La sección "GitHub & PR Etiquette" de abajo (CLA de Google, gates de contribuidores externos) aplica **solo a PRs hacia upstream**. Para cambios del fork, sigue [`.github/CONTRIBUTING.md`](./.github/CONTRIBUTING.md) y [`FORK.md`](./FORK.md): diff mínimo en `src/`, la lógica del fork va en `src/build/fork-postbuild.mjs`, y nada que salga a la red en runtime.
+
 This repository authors **Modern Web Guidance** for web platform features (`guides/`), standalone skills (`skills-src/`), and the evaluation harness (`src/`). Because `guide.md` is the **only** file retrieved by external coding agents at runtime (`demo.html`, `expectations.md`, and `targets/` are used within this repo for validation and evaluation), all guidance must be self-contained, deterministic, and command-oriented.
 
 ## Required Project Skills (Single Source of Truth)
