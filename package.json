@@ -1,5 +1,5 @@
 {
-  "name": "modern-web-guidance-src",
+  "name": "dropmind-web-guidance-src",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -39,7 +39,8 @@
     "setup:playwright": "playwright install",
     "generate-grader": "node --env-file=.env src/grading/generate-grader.ts",
     "grade": "node src/grading/run-grader.ts",
-    "dev-guide": "node --env-file=.env src/authoring/dev.ts"
+    "dev-guide": "node --env-file=.env src/authoring/dev.ts",
+    "build:fork": "pnpm build && node src/build/fork-postbuild.mjs"
   },
   "keywords": [],
   "author": "",

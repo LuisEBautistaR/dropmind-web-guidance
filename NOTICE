@@ -1,0 +1,12 @@
+dropmind-web-guidance
+Copyright 2026 dropmind (LuisEBautistaR)
+
+This product is a modified version of "Modern Web Guidance"
+(https://github.com/GoogleChrome/modern-web-guidance-src), Copyright 2026 Google LLC,
+licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Modifications: telemetry removed, network-based install/update disabled,
+CLI/skills rebranded at build time, upstream CI workflows removed. See FORK.md.
+
+"Google" and "Chrome" are trademarks of Google LLC. This fork is not affiliated
+with or endorsed by Google.

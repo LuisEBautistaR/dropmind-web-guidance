@@ -1,0 +1,61 @@
+name: fork-ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (sin scripts de postinstall)
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Build + rebrand + guardas de telemetría
+        run: pnpm build:fork
+
+      - name: Tests del CLI
+        run: node --test --test-reporter spec "src/cli/**/*.test.ts"
+
+      - name: Verificar cero red en runtime
+        run: |
+          cat > /tmp/nethook.mjs <<'EOF'
+          import fs from 'node:fs'; import net from 'node:net';
+          const log = (m) => fs.appendFileSync('/tmp/net.log', m + '\n');
+          globalThis.fetch = async (u) => { log('FETCH ' + u); throw new Error('blocked'); };
+          const oc = net.Socket.prototype.connect;
+          net.Socket.prototype.connect = function (...a) { log('SOCKET ' + JSON.stringify(a[0]?.host ?? a[0])); return oc.apply(this, a); };
+          EOF
+          : > /tmp/net.log
+          CLI=dist/skills-cli/skills/dropmind-web-guidance/modern-web.mjs
+          export NODE_OPTIONS="--import /tmp/nethook.mjs"
+          node $CLI search "light dismiss dialog" > /dev/null
+          node $CLI retrieve dialog > /dev/null
+          node $CLI list > /dev/null
+          node $CLI legacy-scan src/cli --json > /dev/null || true
+          node $CLI update && exit 1 || true
+          sleep 6
+          if [ -s /tmp/net.log ]; then echo "::error::Conexiones de red detectadas"; cat /tmp/net.log; exit 1; fi
+          echo "Cero conexiones de red ✔"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dropmind-web-guidance-dist
+          path: dist/skills-cli
+          retention-days: 14

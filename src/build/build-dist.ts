@@ -311,15 +311,6 @@ if (__mwg_major < 22) {
         metafile: true,
       });
 
-      console.log("Bundling watchdog main.js...");
-      const resultWatchdog = await esbuild.build({
-        entryPoints: [path.join(rootDir, "src/cli/telemetry/watchdog/main.ts")],
-        bundle: true,
-        platform: "node",
-        format: "esm",
-        outfile: path.join(publishRoot, "skills/modern-web-guidance/watchdog/main.js"),
-        metafile: true,
-      });
 
       const modernWebMjsPath = path.join(publishRoot, "skills/modern-web-guidance/modern-web.mjs");
       const modernWebContent = fs.readFileSync(modernWebMjsPath, "utf8");
@@ -327,7 +318,7 @@ if (__mwg_major < 22) {
       fs.writeFileSync(modernWebMjsPath, updatedModernWebContent);
 
       generateThirdPartyNotices(
-        [resultSearch.metafile, resultLegacyScan.metafile, resultModernWeb.metafile, resultWatchdog.metafile],
+        [resultSearch.metafile, resultLegacyScan.metafile, resultModernWeb.metafile],
         path.join(publishRoot, "THIRD_PARTY_NOTICES")
       );
 

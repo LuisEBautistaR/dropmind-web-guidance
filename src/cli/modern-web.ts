@@ -92,6 +92,13 @@ async function main() {
 
   const command = positionals[0];
 
+  // fork no-telemetry: these subcommands shell out to `npx skills ...` and pull the
+  // upstream (telemetry-enabled) skills from GitHub. Disabled to keep the fork offline.
+  if (["install", "update", "uninstall"].includes(command)) {
+    console.error(`dropmind-web-guidance: '${command}' is disabled (offline, telemetry-free fork). Update with: git pull && pnpm build:fork && ./scripts/install-local.sh`);
+    process.exit(2);
+  }
+
   if (command === "legacy-scan" || command === "analyze") {
     maybeEmitUpdateMessage(skillVersion);
     // Dynamic import to keep the CLI loading fast -- only load legacy-scan dependencies if needed.
